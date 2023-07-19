@@ -29,13 +29,16 @@ export default async function RootLayout({
     .select(`*`)
     .eq('id', session?.user?.id)
     .single();
+  let {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <html lang='en' className='min-h-screen'>
       <body
         className={`${inter.className} bg-gray-50 dark:bg-slate-800 min-h-screen`}
       >
-        <Header session={session} profile={profile} />
+        <Header session={session} profile={profile} user={user} />
         {children}
         <Footer />
       </body>

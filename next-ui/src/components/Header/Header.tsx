@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { Session } from '@supabase/supabase-js';
+import { Session, User } from '@supabase/supabase-js';
 import AvatarButton from './AvatarButton';
 import { Database } from '@/types/supabase';
 
@@ -9,9 +9,10 @@ type Profile = Database['public']['Tables']['profiles']['Row'];
 interface Props {
   profile?: Profile | null;
   session?: Session | null;
+  user?: User | null;
 }
 
-const Header = ({ session, profile }: Props) => {
+const Header = ({ session, profile, user }: Props) => {
   const pathname = usePathname();
   useEffect(() => {
     import('preline');
@@ -46,7 +47,7 @@ const Header = ({ session, profile }: Props) => {
           >
             <div className='flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:pl-5'>
               {session && profile ? (
-                <AvatarButton session={session} profile={profile} />
+                <AvatarButton session={session} profile={profile} user={user} />
               ) : (
                 navLinks.map((link) => {
                   const isActive = pathname === link.href;
